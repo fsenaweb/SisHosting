@@ -32,37 +32,37 @@
                 </div>
                 <div class="sidebar-wrapper">
                     <ul class="nav">
-                        <li class="nav-item {{ $page == 'dashboard' ? 'active' : '' }}  ">
+                        <li class="nav-item {{ $page['link'] == 'dash' ? 'active' : '' }}  ">
                             <a class="nav-link" href="{{ route('home') }}">
                                 <i class="material-icons">dashboard</i>
                                 <p>Dashboard</p>
                             </a>
                         </li>
-                        <li class="nav-item {{ $page == 'clientes' ? 'active' : '' }} ">
-                            <a class="nav-link" href="./user.html">
+                        <li class="nav-item {{ $page['link'] == 'clients' ? 'active' : '' }} ">
+                            <a class="nav-link" href="{{ route('clients.index') }}">
                                 <i class="material-icons">persons</i>
                                 <p>Clientes</p>
                             </a>
                         </li>
-                        <li class="nav-item {{ $page == 'financeiro' ? 'active' : '' }} ">
+                        <li class="nav-item {{ $page['link'] == 'financeiro' ? 'active' : '' }} ">
                             <a class="nav-link" href="./tables.html">
                                 <i class="material-icons">attach_money</i>
                                 <p>Financeiro</p>
                             </a>
                         </li>
-                        <li class="nav-item {{ $page == 'ticket' ? 'active' : '' }} ">
+                        <li class="nav-item {{ $page['link'] == 'ticket' ? 'active' : '' }} ">
                             <a class="nav-link" href="./tables.html">
                                 <i class="material-icons">local_offer</i>
                                 <p>Tickets</p>
                             </a>
                         </li>
-                        <li class="nav-item {{ $page == 'configuracoes' ? 'active' : '' }} ">
+                        <li class="nav-item {{ $page['link'] == 'configuracoes' ? 'active' : '' }} ">
                             <a class="nav-link" href="./typography.html">
                                 <i class="material-icons">library_books</i>
                                 <p>Configurações</p>
                             </a>
                         </li>
-                        <li class="nav-item {{ $page == 'faturas' ? 'active' : '' }} ">
+                        <li class="nav-item {{ $page['link'] == 'faturas' ? 'active' : '' }} ">
                             <a class="nav-link" href="./icons.html">
                                 <i class="material-icons">description</i>
                                 <p>Faturas</p>
@@ -76,7 +76,7 @@
                 <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
                     <div class="container-fluid">
                         <div class="navbar-wrapper">
-                            <a class="navbar-brand" href="#">Dashboard</a>
+                            <a class="navbar-brand" href="#">{{ $page['name'] }}</a>
                         </div>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="sr-only">Toggle navigation</span>

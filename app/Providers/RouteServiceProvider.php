@@ -39,7 +39,24 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapClientRoutes();
+
         //
+    }
+
+    /**
+     * Define the "client" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapClientRoutes()
+    {
+        Route::prefix('client')
+             ->middleware(['web'])
+             ->namespace($this->namespace)
+             ->group(base_path('routes/client.php'));
     }
 
     /**
