@@ -33,6 +33,9 @@
             "Tests\\": "tests/"
         }
     },
+    "files": [
+        "app/Helpers/helper.php"
+    ],
     "extra": {
         "laravel": {
             "dont-discover": [
@@ -49,6 +52,11 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
+        ],
+        "post-update-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "php artisan ide-helper:generate",
+            "php artisan ide-helper:meta"
         ]
     },
     "config": {

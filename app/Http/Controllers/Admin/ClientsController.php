@@ -16,9 +16,9 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        $page = ['name' => 'Clientes', 'link' => 'clients'];
-        $result = Client::orderBy('created_at','desc')->paginate(30);
-        return view('admin.clients.index', compact('result', 'page'));
+            $page = ['name' => 'Clientes', 'link' => 'clients'];
+            $result = Client::orderBy('created_at','desc')->paginate(30);
+            return view('admin.clients.index', compact('result', 'page'));
     }
 
     /**
@@ -126,7 +126,7 @@ class ClientsController extends Controller
             'max'       => 'O campo :attribute deve conter no máximo :max caracteres.',
             'min'       => 'O campo :attribute deve conter no mímino :min caracteres.',
             'alpha'     => 'O campo :attribute deve conter apenas letras.',
-            'numeriv'   => 'O campo :attribute deve conter apenas números.'
+            'numeric'   => 'O campo :attribute deve conter apenas números.'
         ],
             $names = array(
                 'name' 		    => 'NOME',

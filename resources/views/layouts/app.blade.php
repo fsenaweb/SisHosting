@@ -44,6 +44,12 @@
                                 <p>Clientes</p>
                             </a>
                         </li>
+                        <li class="nav-item {{ $page['link'] == 'domains' ? 'active' : '' }} ">
+                            <a class="nav-link" href="{{ route('domains.index') }}">
+                                <i class="material-icons">language</i>
+                                <p>Domínios</p>
+                            </a>
+                        </li>
                         <li class="nav-item {{ $page['link'] == 'financeiro' ? 'active' : '' }} ">
                             <a class="nav-link" href="./tables.html">
                                 <i class="material-icons">attach_money</i>
