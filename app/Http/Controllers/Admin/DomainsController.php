@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Client;
 use App\Models\Domain;
 use App\Models\Plan;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Helpers\Helper;
@@ -47,9 +48,25 @@ class DomainsController extends Controller
         $this->rules();
         $request['first_amount_invoice'] = Helper::formatNumber($request['first_amount_invoice'], 'US');
         $request['amount_invoice'] = Helper::formatNumber($request['amount_invoice'], 'US');
-        Domain::Create($request->all());
-        return redirect()->route('domains.index')
-            ->with("sucesso", "Dados cadastrados com sucesso");
+        $domain = Domain::Create($request->all());
+        if ($domain) {
+            $invoice = Invoice::create([
+                'domain_id' => $domain->id,
+                'payment'   => $request->first_data_invoice,
+                'amount'    => $request->amount_invoice
+            ]);
+            if ($invoice) {
+                return redirect()->route('domains.index')
+                    ->with("sucesso", "Dados cadastrados com sucesso");
+            } else {
+                return redirect()->route('domains.index')
+                    ->with("error", "Erro ao realizar o cadastro");
+            }
+        } else {
+            return redirect()->route('domains.index')
+                ->with("error", "Erro ao realizar o cadastro");
+        }
+
     }
 
     /**
@@ -60,7 +77,11 @@ class DomainsController extends Controller
      */
     public function edit(Domain $domain)
     {
-        //
+        $page   = ['name' => 'Domínios', 'link' => 'domains'];
+        $result = Domain::findOrFail($domain->id);
+        $client = Client::orderBy('name', 'asc')->get();
+        $plan   = Plan::orderBy('name', 'asc')->get();
+        return view('admin.domains.edit', compact('page', 'result', 'client', 'plan'));
     }
 
     /**
@@ -91,7 +112,7 @@ class DomainsController extends Controller
 
         Request()->validate([
             'client_id'             => 'required',
-            'domain'                => 'required|min:6|max:255',
+            'domain'                => 'required|min:6|max:255|unique:domains,domain',
             'plan_id'               => 'required',
             'payment'               => 'required',
             'frequency'             => 'required',

@@ -16,7 +16,7 @@ class CreateDomainsTable extends Migration
         Schema::create('domains', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('client_id')->unsigned();
-            $table->string('domain');
+            $table->string('domain')->unique();
             $table->integer('plan_id')->unsigned();
             $table->char('payment',1);
             $table->char('frequency', 1);
@@ -25,7 +25,6 @@ class CreateDomainsTable extends Migration
             $table->decimal('first_amount_invoice');
             $table->decimal('amount_invoice');
             $table->text('information')->nullable();
-            $table->boolean('pay')->default(false);
             $table->foreign('plan_id')->references('id')->on('plans');
             $table->foreign('client_id')->references('id')->on('clients');
             $table->timestamps();

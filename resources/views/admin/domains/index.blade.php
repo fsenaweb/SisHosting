@@ -22,6 +22,11 @@
                         <strong>{{ session('sucesso') }}</strong>
                     </div>
                     @endif
+                    @if(session('error'))
+                        <div class="alert alert-danger" role="alert">
+                            <strong>{{ session('error') }}</strong>
+                        </div>
+                    @endif
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead class="muted-text">
@@ -40,7 +45,7 @@
                                         <a href="{{ route('clients.show', $res->client->id) }}" class="text-secondary"><strong>{{ $res->client->name }}</strong></a>
                                     </td>
                                     <td>
-                                        Plano
+                                        {{ $res->plan->name }}
                                     </td>
                                     <td class="td-actions text-center">
                                         <a href="{{ route('domains.edit', [ $res->id ]) }}" rel="tooltip" class="btn btn-facebook"><i class="material-icons">edit</i></a>

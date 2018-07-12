@@ -50,6 +50,12 @@
                                 <p>Domínios</p>
                             </a>
                         </li>
+                        <li class="nav-item {{ $page['link'] == 'faturas' ? 'active' : '' }} ">
+                            <a class="nav-link" href="./icons.html">
+                                <i class="material-icons">description</i>
+                                <p>Faturas</p>
+                            </a>
+                        </li>
                         <li class="nav-item {{ $page['link'] == 'financeiro' ? 'active' : '' }} ">
                             <a class="nav-link" href="./tables.html">
                                 <i class="material-icons">attach_money</i>
@@ -66,12 +72,6 @@
                             <a class="nav-link" href="./typography.html">
                                 <i class="material-icons">library_books</i>
                                 <p>Configurações</p>
-                            </a>
-                        </li>
-                        <li class="nav-item {{ $page['link'] == 'faturas' ? 'active' : '' }} ">
-                            <a class="nav-link" href="./icons.html">
-                                <i class="material-icons">description</i>
-                                <p>Faturas</p>
                             </a>
                         </li>
                     </ul>

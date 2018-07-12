@@ -18,6 +18,7 @@ class CreateInvoicesTable extends Migration
             $table->integer('domain_id')->unsigned();
             $table->date('payment');
             $table->decimal('amount');
+            $table->boolean('pay')->default(false);
             $table->foreign('domain_id')->references('id')->on('domains');
             $table->timestamps();
         });
