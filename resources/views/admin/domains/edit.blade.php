@@ -88,27 +88,6 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="form-group col-md-5">
-                                <label for="first_data_invoice" class="bmd-label-floating">Data Primeira Fatura</label>
-                                <input name="first_data_invoice" type="date" class="form-control" id="first_data_invoice" value="{{ $result->first_data_invoice }}">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="first_amount_invoice" class="bmd-label-floating">Valor Primeira Fatura</label>
-                                <input name="first_amount_invoice" type="text" class="form-control" id="first_amount_invoice" value="{{ App\Helpers\Helper::formatNumber($result->first_amount_invoice, 'BR') }}">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="amount_invoice" class="bmd-label-floating">Valor faturas</label>
-                                <input name="amount_invoice" type="text" class="form-control" id="amount_invoice" value="{{ App\Helpers\Helper::formatNumber($result->amount_invoice, 'BR') }}">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <label for="information">Observação</label>
-                                <textarea name="information" class="form-control" id="information"
-                                          rows="4">{{ $result->information }}</textarea>
-                            </div>
-                        </div>
                         <hr>
                         <div class="row">
                             <div class="col-md-12 text-right">

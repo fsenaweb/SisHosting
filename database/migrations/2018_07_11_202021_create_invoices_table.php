@@ -15,11 +15,13 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('domain_id')->unsigned();
+            $table->string('domain');
+            $table->integer('domain_id');
+            $table->string('client');
+            $table->integer('client_id');
             $table->date('payment');
             $table->decimal('amount');
             $table->boolean('pay')->default(false);
-            $table->foreign('domain_id')->references('id')->on('domains');
             $table->timestamps();
         });
     }

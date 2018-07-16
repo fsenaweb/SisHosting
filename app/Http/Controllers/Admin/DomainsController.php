@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Domain;
 use App\Models\Plan;
 use App\Models\Invoice;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Helpers\Helper;
@@ -51,13 +52,16 @@ class DomainsController extends Controller
         $domain = Domain::Create($request->all());
         if ($domain) {
             $invoice = Invoice::create([
+                'domain'    => $domain->domain,
                 'domain_id' => $domain->id,
+                'client'    => $domain->client->name,
+                'client_id' => $domain->client->ids,
                 'payment'   => $request->first_data_invoice,
                 'amount'    => $request->amount_invoice
             ]);
             if ($invoice) {
                 return redirect()->route('domains.index')
-                    ->with("sucesso", "Dados cadastrados com sucesso");
+                    ->with("success", "Dados cadastrados com sucesso");
             } else {
                 return redirect()->route('domains.index')
                     ->with("error", "Erro ao realizar o cadastro");
@@ -93,7 +97,11 @@ class DomainsController extends Controller
      */
     public function update(Request $request, Domain $domain)
     {
-        //
+        $this->rulesUpdate($domain->id);
+        Domain::findOrFail($domain->id)->update($request->all());
+        return redirect()->route('domains.index')
+            ->with('success','Dados alterados com sucesso!')
+            ->with('invoice','Realize as alterações na fatura do domínio!');
     }
 
     /**
@@ -104,7 +112,10 @@ class DomainsController extends Controller
      */
     public function destroy(Domain $domain)
     {
-        //
+        Domain::findOrFail($domain->id)
+            ->delete();
+        return redirect()->route('domains.index')
+            ->with('success','Dados excluídos com sucesso!');
     }
 
     public function rules()
@@ -121,6 +132,39 @@ class DomainsController extends Controller
             'first_amount_invoice'  => 'required',
             'amount_invoice'        => 'required',
             'information'           => 'nullable'
+        ],
+            [
+                'required'  => 'O campo :attribute é obrigatório',
+                'max'       => 'O campo :attribute deve conter no máximo :max caracteres.',
+                'min'       => 'O campo :attribute deve conter no mímino :min caracteres.',
+                'alpha'     => 'O campo :attribute deve conter apenas letras.',
+                'numeric'   => 'O campo :attribute deve conter apenas números.'
+            ],
+            $names = array(
+                'client_id'             => 'CLIENTE',
+                'domain'                => 'DOMÍNIO',
+                'plan_id'               => 'PLANO',
+                'payment'               => 'FORMA DE PAGAMENTO',
+                'frequency'             => 'PERIODICIDADE',
+                'day_invoice'           => 'DIA VENCIMENTO',
+                'first_data_invoice'    => 'DATA DA PRIMEIRA FATURA',
+                'first_amount_invoice'  => 'VALOR DA PRIMEIRA FATURA',
+                'amount_invoice'        => 'VALOR DAS FATURAS',
+                'information'           => 'OBSERVAÇÃO'
+            )
+        );
+    }
+
+    public function rulesUpdate($id)
+    {
+
+        Request()->validate([
+            'client_id'             => 'required',
+            'domain'                => 'required|min:6|max:255|unique:domains,domain,'.$id,
+            'plan_id'               => 'required',
+            'payment'               => 'required',
+            'frequency'             => 'required',
+            'day_invoice'           => 'required'
         ],
             [
                 'required'  => 'O campo :attribute é obrigatório',

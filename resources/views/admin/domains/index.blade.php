@@ -17,14 +17,19 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @if(session('sucesso'))
+                    @if(session('success'))
                     <div class="alert alert-success" role="alert">
-                        <strong>{{ session('sucesso') }}</strong>
+                        <strong>{{ session('success') }}</strong>
                     </div>
                     @endif
                     @if(session('error'))
                         <div class="alert alert-danger" role="alert">
                             <strong>{{ session('error') }}</strong>
+                        </div>
+                    @endif
+                    @if(session('invoice'))
+                        <div class="alert alert-warning" role="alert">
+                            <strong>{{ session('invoice') }}</strong>
                         </div>
                     @endif
                     <div class="table-responsive">
