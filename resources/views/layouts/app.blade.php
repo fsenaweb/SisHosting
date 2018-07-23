@@ -50,8 +50,8 @@
                                 <p>Domínios</p>
                             </a>
                         </li>
-                        <li class="nav-item {{ $page['link'] == 'faturas' ? 'active' : '' }} ">
-                            <a class="nav-link" href="./icons.html">
+                        <li class="nav-item {{ $page['link'] == 'invoices' ? 'active' : '' }} ">
+                            <a class="nav-link" href="{{ route('invoices.index') }}">
                                 <i class="material-icons">description</i>
                                 <p>Faturas</p>
                             </a>

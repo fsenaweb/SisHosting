@@ -21,7 +21,7 @@ class CreateInvoicesTable extends Migration
             $table->integer('client_id');
             $table->date('payment');
             $table->decimal('amount');
-            $table->boolean('pay')->default(false);
+            $table->char('pay', '1');
             $table->timestamps();
         });
     }

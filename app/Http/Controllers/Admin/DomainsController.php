@@ -51,15 +51,25 @@ class DomainsController extends Controller
         $request['amount_invoice'] = Helper::formatNumber($request['amount_invoice'], 'US');
         $domain = Domain::Create($request->all());
         if ($domain) {
+            $first_invoice = Invoice::create([
+                'domain'    => $domain->domain,
+                'domain_id' => $domain->id,
+                'client'    => $domain->client->name,
+                'client_id' => $domain->client->id,
+                'payment'   => date('Y-m-d'),
+                'amount'    => $request->first_amount_invoice,
+                'pay'       => '1'
+            ]);
             $invoice = Invoice::create([
                 'domain'    => $domain->domain,
                 'domain_id' => $domain->id,
                 'client'    => $domain->client->name,
-                'client_id' => $domain->client->ids,
+                'client_id' => $domain->client->id,
                 'payment'   => $request->first_data_invoice,
-                'amount'    => $request->amount_invoice
+                'amount'    => $request->amount_invoice,
+                'pay'       => '0'
             ]);
-            if ($invoice) {
+            if ($invoice && $first_invoice) {
                 return redirect()->route('domains.index')
                     ->with("success", "Dados cadastrados com sucesso");
             } else {
