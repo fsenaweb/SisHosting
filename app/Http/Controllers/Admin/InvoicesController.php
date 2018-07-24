@@ -18,10 +18,10 @@ class InvoicesController extends Controller
     {
         $page = ['name' => 'Faturas', 'link' => 'invoices'];
         $result = Invoice::where('pay', '=', '0')
-            ->join('clients', 'invoices.client_id', '=', 'clients.id')
             ->join('domains', 'invoices.domain_id', '=', 'domains.id')
-            ->join('plans', 'domains.plan_id', '=', 'plans.id')
-            ->select('invoices.id', 'clients.id as client_id', 'clients.name', 'invoices.domain', 'invoices.amount', 'domains.first_data_invoice', 'plans.name as plan_name')
+            ->join('clients', 'clients.id', '=', 'domains.client_id')
+            ->select('invoices.id', 'invoices.domain_id', 'invoices.amount', 'invoices.date_payment', 'domains.domain as domain_name', 'clients.name', 'clients.id as client_id')
+            ->orderBy('invoices.date_payment', 'ASC')
             ->paginate(20);
         return view('admin.invoices.index', compact('page', 'result'));
     }

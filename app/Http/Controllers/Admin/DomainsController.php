@@ -46,39 +46,51 @@ class DomainsController extends Controller
      */
     public function store(Request $request)
     {
+
+        if($request->checkpoint == '1') {
+            $this->rulesCheck();
+        }
+
         $this->rules();
         $request['first_amount_invoice'] = Helper::formatNumber($request['first_amount_invoice'], 'US');
         $request['amount_invoice'] = Helper::formatNumber($request['amount_invoice'], 'US');
         $domain = Domain::Create($request->all());
-        if ($domain) {
+        if ($domain && $request->checkpoint == '1') {
             $first_invoice = Invoice::create([
-                'domain'    => $domain->domain,
-                'domain_id' => $domain->id,
-                'client'    => $domain->client->name,
-                'client_id' => $domain->client->id,
-                'payment'   => date('Y-m-d'),
-                'amount'    => $request->first_amount_invoice,
-                'pay'       => '1'
+                'domain_id'             => $domain->id,
+                'type_payment'          => $request->type_payment,
+                'date_payment'          => date('Y-m-d'),
+                'amount'                => $request->first_amount_invoice,
+                'frequency'             => $request->frequency,
+                'day_invoice'           => $request->day_invoice,
+                'first_data_invoice'    => $request->first_data_invoice,
+                'first_amount_invoice'  => $request->first_amount_invoice,
+                'amount_invoice'        => $request->amount_invoice,
+                'pay'                   => '1'
             ]);
             $invoice = Invoice::create([
-                'domain'    => $domain->domain,
-                'domain_id' => $domain->id,
-                'client'    => $domain->client->name,
-                'client_id' => $domain->client->id,
-                'payment'   => $request->first_data_invoice,
-                'amount'    => $request->amount_invoice,
-                'pay'       => '0'
+                'domain_id'             => $domain->id,
+                'type_payment'          => $request->type_payment,
+                'date_payment'          => $request->first_data_invoice,
+                'amount'                => $request->amount_invoice,
+                'frequency'             => $request->frequency,
+                'day_invoice'           => $request->day_invoice,
+                'first_data_invoice'    => $request->first_data_invoice,
+                'first_amount_invoice'  => $request->first_amount_invoice,
+                'amount_invoice'        => $request->amount_invoice,
+                'pay'                   => '0'
             ]);
+
             if ($invoice && $first_invoice) {
                 return redirect()->route('domains.index')
-                    ->with("success", "Dados cadastrados com sucesso");
+                    ->with("success", "Domínio e fatura cadastradas com sucesso");
             } else {
                 return redirect()->route('domains.index')
-                    ->with("error", "Erro ao realizar o cadastro");
+                    ->with("error", "Erro ao realizar o cadastro 1");
             }
         } else {
             return redirect()->route('domains.index')
-                ->with("error", "Erro ao realizar o cadastro");
+                ->with("success", "Domínio cadastrado com sucesso.");
         }
 
     }
@@ -128,6 +140,30 @@ class DomainsController extends Controller
             ->with('success','Dados excluídos com sucesso!');
     }
 
+    public function rulesCheck()
+    {
+        Request()->validate([
+            'type_payment'          => 'required',
+            'frequency'             => 'required',
+            'day_invoice'           => 'required',
+            'first_data_invoice'    => 'required',
+            'first_amount_invoice'  => 'required',
+            'amount_invoice'        => 'required',
+        ],
+            [
+                'required'  => 'O campo :attribute é obrigatório',
+            ],
+            $names = array(
+                'type_payment'          => 'FORMA DE PAGAMENTO',
+                'frequency'             => 'PERIODICIDADE',
+                'day_invoice'           => 'DIA VENCIMENTO',
+                'first_data_invoice'    => 'DATA DA PRIMEIRA FATURA',
+                'first_amount_invoice'  => 'VALOR DA PRIMEIRA FATURA',
+                'amount_invoice'        => 'VALOR DAS FATURAS',
+            )
+        );
+    }
+
     public function rules()
     {
 
@@ -135,12 +171,6 @@ class DomainsController extends Controller
             'client_id'             => 'required',
             'domain'                => 'required|min:6|max:255|unique:domains,domain',
             'plan_id'               => 'required',
-            'payment'               => 'required',
-            'frequency'             => 'required',
-            'day_invoice'           => 'required',
-            'first_data_invoice'    => 'required',
-            'first_amount_invoice'  => 'required',
-            'amount_invoice'        => 'required',
             'information'           => 'nullable'
         ],
             [
@@ -171,29 +201,17 @@ class DomainsController extends Controller
         Request()->validate([
             'client_id'             => 'required',
             'domain'                => 'required|min:6|max:255|unique:domains,domain,'.$id,
-            'plan_id'               => 'required',
-            'payment'               => 'required',
-            'frequency'             => 'required',
-            'day_invoice'           => 'required'
+            'plan_id'               => 'required'
         ],
             [
                 'required'  => 'O campo :attribute é obrigatório',
                 'max'       => 'O campo :attribute deve conter no máximo :max caracteres.',
                 'min'       => 'O campo :attribute deve conter no mímino :min caracteres.',
-                'alpha'     => 'O campo :attribute deve conter apenas letras.',
-                'numeric'   => 'O campo :attribute deve conter apenas números.'
             ],
             $names = array(
                 'client_id'             => 'CLIENTE',
                 'domain'                => 'DOMÍNIO',
-                'plan_id'               => 'PLANO',
-                'payment'               => 'FORMA DE PAGAMENTO',
-                'frequency'             => 'PERIODICIDADE',
-                'day_invoice'           => 'DIA VENCIMENTO',
-                'first_data_invoice'    => 'DATA DA PRIMEIRA FATURA',
-                'first_amount_invoice'  => 'VALOR DA PRIMEIRA FATURA',
-                'amount_invoice'        => 'VALOR DAS FATURAS',
-                'information'           => 'OBSERVAÇÃO'
+                'plan_id'               => 'PLANO'
             )
         );
     }

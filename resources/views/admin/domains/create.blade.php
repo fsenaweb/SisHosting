@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-md-8">
                             <h4 class="card-title"><strong>Domínios</strong></h4>
-                            <p class="card-category"><strong>Nova fatura</strong></p>
+                            <p class="card-category"><strong>Novo Cadastro</strong></p>
                         </div>
                         <div class="col-md-4 text-right">
                             <a href="{{ url()->previous() }}">
@@ -48,7 +48,7 @@
                                 <label for="domain" class="bmd-label-floating">Domínio</label>
                                 <input name="domain" type="text" class="form-control" id="domain" value="{{ old('domain') }}" placeholder="ex.: dominio.com.br">
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label for="plan">Plano</label>
                                 <select name="plan_id" class="form-control" id="plan">
                                     @foreach($plan as $pl)
@@ -56,49 +56,68 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-5">
-                                <label for="payment">Forma de Pagamento</label>
-                                <select name="payment" class="form-control" id="payment">
-                                    <option value="1">Depósito Bancário</option>
-                                    <option value="2">Boleto Bancário</option>
-                                    <option value="3">Paypal</option>
-                                    <option value="4">Cartão de crédito</option>
-                                </select>
-                            </div>
                             <div class="form-group col-md-2">
-                                <label for="day_invoice">Dia Vencimento</label>
-                                <select name="day_invoice" class="form-control" id="day_invoice">
-                                    <option value="10">10</option>
-                                    <option value="20">20</option>
-                                    <option value="30">30</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-5">
-                                <label for="frequency">Periodicidade</label>
-                                <select name="frequency" class="form-control" id="frequency">
-                                    <option value="1">Mensal</option>
-                                    <option value="2">Trimestral</option>
-                                    <option value="3">Semestral</option>
-                                    <option value="4">Anual</option>
-                                    <option value="5">Bianual</option>
-                                    <option value="6">Trianual</option>
-                                </select>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" value="1" id="checkpoint" name="checkpoint">
+                                        Gerar fatura ?
+                                        <span class="form-check-sign">
+                                      <span class="check"></span>
+                                  </span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-5">
-                                <label for="first_data_invoice" class="bmd-label-floating">Data Primeira Fatura</label>
-                                <input name="first_data_invoice" type="date" class="form-control" id="first_data_invoice" value="{{ old('first_data_invoice') }}">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="first_amount_invoice" class="bmd-label-floating">Valor Primeira Fatura</label>
-                                <input name="first_amount_invoice" type="text" class="form-control" id="first_amount_invoice" value="{{ old('first_amount_invoice') }}">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="amount_invoice" class="bmd-label-floating">Valor faturas</label>
-                                <input name="amount_invoice" type="text" class="form-control" id="amount_invoice" value="{{ old('amount_invoice') }}">
+                            <div class="col-md-12">
+                                <div class="card" id="teste">
+                                    <div class="card-body" style="background: #F2F2F2">
+                                        <div class="row">
+                                            <div class="form-group col-md-5">
+                                                <label for="type_payment">Forma de Pagamento</label>
+                                                <select name="type_payment" class="form-control" id="type_payment">
+                                                    <option value="1">Depósito Bancário</option>
+                                                    <option value="2">Boleto Bancário</option>
+                                                    <option value="3">Paypal</option>
+                                                    <option value="4">Cartão de crédito</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label for="day_invoice">Dia Vencimento</label>
+                                                <select name="day_invoice" class="form-control" id="day_invoice">
+                                                    <option value="10">10</option>
+                                                    <option value="20">20</option>
+                                                    <option value="30">30</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-5">
+                                                <label for="frequency">Periodicidade</label>
+                                                <select name="frequency" class="form-control" id="frequency">
+                                                    <option value="1">Mensal</option>
+                                                    <option value="2">Trimestral</option>
+                                                    <option value="3">Semestral</option>
+                                                    <option value="4">Anual</option>
+                                                    <option value="5">Bianual</option>
+                                                    <option value="6">Trianual</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-5">
+                                                <label for="first_data_invoice" class="bmd-label-floating">Data Primeira Fatura</label>
+                                                <input name="first_data_invoice" type="date" class="form-control" id="first_data_invoice" value="{{ old('first_data_invoice') }}">
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label for="first_amount_invoice" class="bmd-label-floating">Valor Primeira Fatura</label>
+                                                <input name="first_amount_invoice" type="text" class="form-control" id="first_amount_invoice" value="{{ old('first_amount_invoice') }}">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="amount_invoice" class="bmd-label-floating">Valor faturas</label>
+                                                <input name="amount_invoice" type="text" class="form-control" id="amount_invoice" value="{{ old('amount_invoice') }}">
+                                            </div>
+                                    </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -119,5 +138,20 @@
             </div>
         </div>
     </div>
+
+@stop
+
+@section('js')
+
+    $(document).ready(function() {
+        $('#teste').hide();
+        $('#checkpoint').change(function(){
+            if($('#checkpoint').is(':checked')) {
+                $('#teste').show();
+            } else {
+                $('#teste').hide();
+            }
+        });
+    });
 
 @stop

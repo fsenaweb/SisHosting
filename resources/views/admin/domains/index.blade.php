@@ -12,7 +12,7 @@
                             <p class="card-category"><strong>Listagem dos domínios</strong></p>
                         </div>
                         <div class="col-md-4 text-right">
-                            <a href="{{ route('domains.create') }}" class="btn btn-facebook">Nova fatura</a>
+                            <a href="{{ route('domains.create') }}" class="btn btn-facebook">Novo domínio</a>
                         </div>
                     </div>
                 </div>

@@ -14,12 +14,6 @@ $factory->define(Domain::class, function (Faker $faker) {
         'plan_id'=> function () {
             return factory(Plan::class)->create()->id;
         },
-        'payment' => $faker->numberBetween(1,3),
-        'frequency' => $faker->numberBetween(1,5),
-        'day_invoice' => $faker->numberBetween(1,9),
-        'first_data_invoice' => $faker->date($format = 'Y-m-d', $max = 'now'),
-        'first_amount_invoice' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 50),
-        'amount_invoice' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 50),
         'information' => $faker->text(300)
     ];
 });
