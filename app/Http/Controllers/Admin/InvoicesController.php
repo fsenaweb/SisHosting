@@ -89,6 +89,8 @@ class InvoicesController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        //
+        Invoice::findOrFail($invoice->id)->delete();
+        return redirect()->route('invoices.index')
+            ->with('sucesso','Fatura removida com sucesso');
     }
 }

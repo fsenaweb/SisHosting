@@ -61,7 +61,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-md-12 text-right">
-                                <button type="submit" class="btn btn-info">Cadastrar</button>
+                                <button type="submit" class="btn btn-info">Atualizar</button>
                             </div>
                         </div>
                     </form>

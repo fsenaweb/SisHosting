@@ -58,8 +58,8 @@
                                     </td>
                                     <td class="td-actions text-center">
                                         <a href="{{ route('invoices.edit', [ $res->id ]) }}" rel="tooltip" class="btn btn-facebook"><i class="material-icons">edit</i></a>
-                                        <form action="{{route('invoices.destroy',$res->id)}}" method="POST" style="display: inline-block">
-                                            {{method_field('DELETE')}}
+                                        <form action="{{route('invoices.destroy', [ $res->id ])}}" method="POST" style="display: inline-block">
+                                            {{ method_field('DELETE') }}
                                             {{csrf_field()}}
                                             <button type="submit" class="btn btn-danger" rel="tooltip" class="btn btn-danger" onClick="if(confirm('Deseja realmente excluir?'))
     return true; else return false;"><i class="material-icons">close</i></button>

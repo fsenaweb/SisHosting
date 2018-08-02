@@ -26,6 +26,7 @@ class CreateInvoicesTable extends Migration
             $table->decimal('amount_invoice');
             $table->char('pay', '1');
             $table->foreign('domain_id')->references('id')->on('domains');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
