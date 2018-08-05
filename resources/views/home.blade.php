@@ -10,7 +10,7 @@
                         <i class="material-icons">person_pin</i>
                     </div>
                     <p class="card-category">Clientes</p>
-                    <h3 class="card-title">150</h3>
+                    <h3 class="card-title">{{ $client }}</h3>
                 </div>
                 <div class="card-footer">
                     <div class="stats">
@@ -27,7 +27,7 @@
                         <i class="material-icons">dvr</i>
                     </div>
                     <p class="card-category">Domínios</p>
-                    <h3 class="card-title">30</h3>
+                    <h3 class="card-title">{{ $domain }}</h3>
                 </div>
                 <div class="card-footer">
                     <div class="stats">
@@ -44,7 +44,7 @@
                         <i class="material-icons">attach_money</i>
                     </div>
                     <p class="card-category">Faturas</p>
-                    <h3 class="card-title">$34,245</h3>
+                    <h3 class="card-title">${{ \App\Helpers\Helper::formatNumber($sum, 'BR') }}</h3>
                 </div>
                 <div class="card-footer">
                     <div class="stats">

@@ -13,3 +13,7 @@ Route::prefix('admin')->middleware('auth')->namespace('Admin')->group(function (
     Route::resource('domains', 'DomainsController');
     Route::resource('invoices', 'InvoicesController');
 });
+
+Route::prefix('admin')->middleware('auth')->namespace('Admin')->group(function () {
+   Route::put('invoices/pay/{id}', 'InvoicesController@pay')->name('invoices.pay');
+});

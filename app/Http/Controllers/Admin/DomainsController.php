@@ -60,6 +60,7 @@ class DomainsController extends Controller
                 'domain_id'             => $domain->id,
                 'type_payment'          => $request->type_payment,
                 'date_payment'          => date('Y-m-d'),
+                'date_pay'              => date('Y-m-d'),
                 'amount'                => $request->first_amount_invoice,
                 'frequency'             => $request->frequency,
                 'day_invoice'           => $request->day_invoice,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Helper;
 use App\Models\Client;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
@@ -66,7 +67,16 @@ class InvoicesController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        //
+        $page = ['name' => 'Faturas', 'link' => 'invoices'];
+
+        $result = Invoice::
+            join('domains', 'invoices.domain_id', '=', 'domains.id')
+            ->select('invoices.id as invoice_id', 'invoices.*', 'domains.*')
+            ->where('invoices.id', '=', $invoice->id)
+            ->get()
+        ->first();
+
+        return view('admin.invoices.edit', compact('page', 'result'));
     }
 
     /**
@@ -78,7 +88,31 @@ class InvoicesController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        //
+        if($request->pay_input == '1') {
+
+            $pay = Invoice::findOrFail($invoice->id)->update([
+                'pay'       => '1',
+                'date_pay'  => date('Y-m-d')
+            ]);
+            if ($pay) {
+                return redirect()->route('invoices.index')
+                    ->with('success', 'Pagamento da fatura registrado com sucesso - pay_input');
+            } else {
+                return redirect()->route('invoices.index')
+                    ->with('error', 'Não foi possível realizar o fechamento da fatura');
+            }
+
+        } else {
+
+            Invoice::findOrFail($invoice->id)->update([
+                'date_payment'  => $request->date_payment,
+                'amount'        => Helper::formatNumber($request->amount, 'US')
+            ]);
+            return redirect()->route('invoices.index')
+                ->with('success', 'Fatura alterada com sucesso');
+
+        }
+
     }
 
     /**
@@ -91,6 +125,7 @@ class InvoicesController extends Controller
     {
         Invoice::findOrFail($invoice->id)->delete();
         return redirect()->route('invoices.index')
-            ->with('sucesso','Fatura removida com sucesso');
+            ->with('success','Fatura removida com sucesso');
     }
+
 }

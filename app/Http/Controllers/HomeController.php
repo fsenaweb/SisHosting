@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
+use App\Models\Domain;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,6 +27,11 @@ class HomeController extends Controller
     public function index()
     {
         $page = ['name' => 'Dashboard', 'link' => 'dash'];
-        return view('home', compact('page'));
+        $client = Client::all()->count();
+        $domain = Domain::all()->count();
+        $sum = Invoice::where('pay', 1)
+            ->whereMonth('date_pay', date('m'))
+            ->sum('amount');
+        return view('home', compact('page', 'sum', 'domain', 'client'));
     }
 }

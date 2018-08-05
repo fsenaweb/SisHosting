@@ -36,10 +36,10 @@
                         <table class="table table-hover">
                             <thead class="muted-text">
                             <th width="28%">Domínio</th>
-                            <th width="16%">Valor</th>
-                            <th width="18%">Vencimento</th>
+                            <th width="14%">Valor</th>
+                            <th width="15%">Vencimento</th>
                             <th width="28%">Cliente</th>
-                            <th class="text-center" width="10%">Ações</th>
+                            <th class="text-center" width="15%">Ações</th>
                             </thead>
                             <tbody>
                             @foreach($result as $res)
@@ -57,12 +57,18 @@
                                         <a href="{{ route('clients.show', $res->client_id) }}">{{ $res->name }}</a>
                                     </td>
                                     <td class="td-actions text-center">
-                                        <a href="{{ route('invoices.edit', [ $res->id ]) }}" rel="tooltip" class="btn btn-facebook"><i class="material-icons">edit</i></a>
+                                        <form action="{{route('invoices.update', [ $res->id ])}}" method="POST" style="display: inline-block">
+                                            {{ method_field('PUT') }}
+                                            {{csrf_field()}}
+                                            <input type="hidden" name="pay_input" value="1">
+                                            <button type="submit" rel="tooltip" class="btn btn-success" title="Pagar fatura"><i class="material-icons">attach_money</i></button>
+                                        </form>
+                                        <a href="{{ route('invoices.edit', [ $res->id ]) }}" rel="tooltip" class="btn btn-facebook" title="Editar fatura"><i class="material-icons">edit</i></a>
                                         <form action="{{route('invoices.destroy', [ $res->id ])}}" method="POST" style="display: inline-block">
                                             {{ method_field('DELETE') }}
                                             {{csrf_field()}}
                                             <button type="submit" class="btn btn-danger" rel="tooltip" class="btn btn-danger" onClick="if(confirm('Deseja realmente excluir?'))
-    return true; else return false;"><i class="material-icons">close</i></button>
+    return true; else return false;" title="Excluir fatura"><i class="material-icons">close</i></button>
                                         </form>
                                     </td>
                                 </tr>

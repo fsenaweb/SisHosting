@@ -18,6 +18,7 @@ class CreateInvoicesTable extends Migration
             $table->integer('domain_id')->unsigned();
             $table->char('type_payment',1);
             $table->date('date_payment');
+            $table->date('date_pay')->nullable();
             $table->decimal('amount');
             $table->char('frequency', 1);
             $table->char('day_invoice', 2);
