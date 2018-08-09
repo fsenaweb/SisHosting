@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class InvoicesController extends Controller
 {
@@ -90,18 +91,49 @@ class InvoicesController extends Controller
     {
         if($request->pay_input == '1') {
 
-            $pay = Invoice::findOrFail($invoice->id)->update([
-                'pay'       => '1',
-                'date_pay'  => date('Y-m-d')
-            ]);
-            if ($pay) {
-                return redirect()->route('invoices.index')
-                    ->with('success', 'Pagamento da fatura registrado com sucesso - pay_input');
+            $selected = Invoice::findOrFail($invoice->id);
+
+            $selectedDate = Carbon::parse($selected->date_payment);
+            if (($selectedDate->day >= 30) && ($selectedDate->month == 1)) {
+                $newDate = Carbon::create($selectedDate->year, 2, 28);
+            } elseif (($selectedDate->day >= 28) && ($selectedDate->month == 2)) {
+                $newDate = Carbon::create($selectedDate->year, 3, 30);
             } else {
-                return redirect()->route('invoices.index')
-                    ->with('error', 'Não foi possível realizar o fechamento da fatura');
+                $newDate = $selectedDate->addMonth();
             }
 
+            //UTILIZAR UM SWITCH, VERIFICA QUAL O TIPO DA PERIODICIDADE E RETORNA UMA VARIAVEL ESPECIFICA E JOGA PRA DENTRO DO IF DO $SELECTEDDATE
+
+            // TEM QUE FAZER UMA NOVA VERIFICAÇÃO, CASO SEJA MENSAL, ADICIONAR APENAS UM MES, SE FOR ANUAL, ETC. TEM QUE PROCURAR NO BANCO DE DADOS QUAL O TIPO DE PERIDIOCIDADE DO CLIENTE PARA VER COMO SERÁ ADICIONADO OS MESES DE PAGAMENTO.
+
+            $result = Invoice::Create([
+                'domain_id'         => $selected->domain_id,
+                'type_payment'      => $selected->type_payment,
+                'date_payment'      => $newDate,
+                'date_pay'          => null,
+                'amount'            => $selected->amount,
+                'frequency'         => $selected->frequency,
+                'day_invoice'       => $selected->day_invoice,
+                'first_data_invoice'=> $selected->first_data_invoice,
+                'first_amount_invoice'=> $selected->first_amount_invoice,
+                'amount_invoice'    => $selected->amount_invoice,
+                'pay'               => '0',
+            ]);
+
+            if($result) {
+                $pay = Invoice::findOrFail($invoice->id)->update([
+                    'pay'       => '1',
+                    'date_pay'  => date('Y-m-d')
+                ]);
+                if ($pay) {
+                    return redirect()->route('invoices.index')
+                        ->with('success', 'Pagamento da fatura registrado com sucesso.')
+                        ->with('invoice', 'Uma nova fatura foi registrada.');
+                } else {
+                    return redirect()->route('invoices.index')
+                        ->with('error', 'Não foi possível realizar o fechamento da fatura');
+                }
+            }
         } else {
 
             Invoice::findOrFail($invoice->id)->update([
