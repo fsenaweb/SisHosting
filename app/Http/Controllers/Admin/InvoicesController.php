@@ -92,19 +92,59 @@ class InvoicesController extends Controller
         if($request->pay_input == '1') {
 
             $selected = Invoice::findOrFail($invoice->id);
-
             $selectedDate = Carbon::parse($selected->date_payment);
-            if (($selectedDate->day >= 30) && ($selectedDate->month == 1)) {
-                $newDate = Carbon::create($selectedDate->year, 2, 28);
-            } elseif (($selectedDate->day >= 28) && ($selectedDate->month == 2)) {
-                $newDate = Carbon::create($selectedDate->year, 3, 30);
-            } else {
-                $newDate = $selectedDate->addMonth();
+
+            $addMonths  = 0;
+            $addYear    = 0;
+
+            switch ($selected->frequency) {
+                case '1':
+                    $addMonths = 1;
+                    break;
+                case '2':
+                    $addMonths = 3;
+                    break;
+                case '3':
+                    $addMonths = 6;
+                    break;
+                case '4':
+                    $addYear = 1;
+                    break;
+                case '5':
+                    $addYear = 2;
+                    break;
+                case '6':
+                    $addYear = 3;
+                    break;
             }
 
-            //UTILIZAR UM SWITCH, VERIFICA QUAL O TIPO DA PERIODICIDADE E RETORNA UMA VARIAVEL ESPECIFICA E JOGA PRA DENTRO DO IF DO $SELECTEDDATE
-
-            // TEM QUE FAZER UMA NOVA VERIFICAÇÃO, CASO SEJA MENSAL, ADICIONAR APENAS UM MES, SE FOR ANUAL, ETC. TEM QUE PROCURAR NO BANCO DE DADOS QUAL O TIPO DE PERIDIOCIDADE DO CLIENTE PARA VER COMO SERÁ ADICIONADO OS MESES DE PAGAMENTO.
+            if (($selectedDate->day >= 30) && ($selectedDate->month == 1)) {
+                if ($addYear) {
+                    $newDate = Carbon::create($selectedDate->year, $selectedDate->month, $selectedDate->day);
+                    $newDate->addYear($addYear);
+                } elseif ($addMonths === 1) {
+                    $newDate = Carbon::create($selectedDate->year, 2, 28);
+                } else {
+                    $newDate = Carbon::create($selectedDate->year, 3, 30);
+                    $newDate->addMonths($addMonths-2);
+                }
+            } elseif (($selectedDate->day >= 28) && ($selectedDate->month == 2)) {
+                if ($addYear) {
+                    $newDate = Carbon::create($selectedDate->year, $selectedDate->month, $selectedDate->day);
+                    $newDate->addYear($addYear);
+                } elseif ($addMonths === 1) {
+                    $newDate = Carbon::create($selectedDate->year, 3, 30);
+                } else {
+                    $newDate = Carbon::create($selectedDate->year, 3, 30);
+                    $newDate->addMonths($addMonths-1);
+                }
+            } else {
+                if ($addYear) {
+                    $newDate = $selectedDate->addYear($addYear);
+                } else {
+                    $newDate = $selectedDate->addMonths($addMonths);
+                }
+            }
 
             $result = Invoice::Create([
                 'domain_id'         => $selected->domain_id,
@@ -141,7 +181,7 @@ class InvoicesController extends Controller
                 'amount'        => Helper::formatNumber($request->amount, 'US')
             ]);
             return redirect()->route('invoices.index')
-                ->with('success', 'Fatura alterada com sucesso');
+                ->with('success', 'Fatura alterada comoi sucesso');
 
         }
 
