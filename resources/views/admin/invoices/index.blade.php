@@ -61,7 +61,8 @@
                                             {{ method_field('PUT') }}
                                             {{csrf_field()}}
                                             <input type="hidden" name="pay_input" value="1">
-                                            <button type="submit" rel="tooltip" class="btn btn-success" title="Pagar fatura"><i class="material-icons">attach_money</i></button>
+                                            <button type="submit" rel="tooltip" class="btn btn-success" title="Pagar fatura" onClick="if(confirm('Confirmar pagamento?'))
+    return true; else return false;"><i class="material-icons">attach_money</i></button>
                                         </form>
                                         <a href="{{ route('invoices.edit', [ $res->id ]) }}" rel="tooltip" class="btn btn-facebook" title="Editar fatura"><i class="material-icons">edit</i></a>
                                         <form action="{{route('invoices.destroy', [ $res->id ])}}" method="POST" style="display: inline-block">

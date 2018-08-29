@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Helper;
 use App\Models\Client;
+use App\Models\Domain;
 use App\Models\Invoice;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -16,9 +18,15 @@ class InvoicesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function __construct()
     {
         $page = ['name' => 'Faturas', 'link' => 'invoices'];
+        $this->page = $page;
+    }
+
+    public function index()
+    {
+        $page = $this->page;
         $result = Invoice::where('pay', '=', '0')
             ->join('domains', 'invoices.domain_id', '=', 'domains.id')
             ->join('clients', 'clients.id', '=', 'domains.client_id')
@@ -35,7 +43,10 @@ class InvoicesController extends Controller
      */
     public function create()
     {
-        //
+        $page   = $this->page;
+        $domain = Domain::all();
+        $plan   = Plan::orderBy('name', 'asc')->get();
+        return view('admin.invoices.create', compact('domain', 'page', 'plan'));
     }
 
     /**
@@ -46,7 +57,29 @@ class InvoicesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $this->rules();
+        $request['first_amount_invoice'] = Helper::formatNumber($request['first_amount_invoice'], 'US');
+        $request['amount_invoice'] = Helper::formatNumber($request['amount_invoice'], 'US');
+        $invoice = Invoice::create([
+            'domain_id'             => $request->domain_id,
+            'type_payment'          => $request->type_payment,
+            'date_payment'          => $request->first_data_invoice,
+            'amount'                => $request->amount_invoice,
+            'frequency'             => $request->frequency,
+            'day_invoice'           => $request->day_invoice,
+            'first_data_invoice'    => $request->first_data_invoice,
+            'first_amount_invoice'  => $request->first_amount_invoice,
+            'amount_invoice'        => $request->amount_invoice,
+            'pay'                   => '0'
+        ]);
+        if ($invoice) {
+            return redirect()->route('invoices.index')
+                ->with("success", "Fatura cadastrada com sucesso");
+        } else {
+            return redirect()->route('invoices.index')
+                ->with("error", "Erro ao realizar o cadastro");
+        }
     }
 
     /**
@@ -68,7 +101,7 @@ class InvoicesController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        $page = ['name' => 'Faturas', 'link' => 'invoices'];
+        $page = $this->page;
 
         $result = Invoice::
             join('domains', 'invoices.domain_id', '=', 'domains.id')
@@ -198,6 +231,34 @@ class InvoicesController extends Controller
         Invoice::findOrFail($invoice->id)->delete();
         return redirect()->route('invoices.index')
             ->with('success','Fatura removida com sucesso');
+    }
+
+    public function rules()
+    {
+        Request()->validate([
+            'domain_id'             => 'required',
+            'plan_id'               => 'required',
+            'type_payment'          => 'required',
+            'frequency'             => 'required',
+            'day_invoice'           => 'required',
+            'first_data_invoice'    => 'required',
+            'first_amount_invoice'  => 'required',
+            'amount_invoice'        => 'required',
+        ],
+            [
+                'required'  => 'O campo :attribute é obrigatório',
+            ],
+            $names = array(
+                'domain_id'             => 'DOMÍNIO',
+                'plan_id'               => 'PLANO',
+                'type_payment'          => 'FORMA DE PAGAMENTO',
+                'frequency'             => 'PERIODICIDADE',
+                'day_invoice'           => 'DIA VENCIMENTO',
+                'first_data_invoice'    => 'DATA DA PRIMEIRA FATURA',
+                'first_amount_invoice'  => 'VALOR DA PRIMEIRA FATURA',
+                'amount_invoice'        => 'VALOR DAS FATURAS',
+            )
+        );
     }
 
 }
