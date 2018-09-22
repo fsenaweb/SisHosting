@@ -12,6 +12,8 @@ Route::prefix('admin')->middleware('auth')->namespace('Admin')->group(function (
     Route::resource('clients', 'ClientsController');
     Route::resource('domains', 'DomainsController');
     Route::resource('invoices', 'InvoicesController');
+    Route::resource('configs', 'ConfigController');
+    Route::resource('plans', 'PlansController');
 });
 
 Route::prefix('admin')->middleware('auth')->namespace('Admin')->group(function () {

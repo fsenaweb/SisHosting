@@ -57,19 +57,19 @@
                             </a>
                         </li>
                         <li class="nav-item {{ $page['link'] == 'financeiro' ? 'active' : '' }} ">
-                            <a class="nav-link" href="./tables.html">
+                            <a class="nav-link" href="#">
                                 <i class="material-icons">attach_money</i>
                                 <p>Financeiro</p>
                             </a>
                         </li>
                         <li class="nav-item {{ $page['link'] == 'ticket' ? 'active' : '' }} ">
-                            <a class="nav-link" href="./tables.html">
+                            <a class="nav-link" href="#">
                                 <i class="material-icons">local_offer</i>
                                 <p>Tickets</p>
                             </a>
                         </li>
-                        <li class="nav-item {{ $page['link'] == 'configuracoes' ? 'active' : '' }} ">
-                            <a class="nav-link" href="./typography.html">
+                        <li class="nav-item {{ $page['link'] == 'configs' ? 'active' : '' }} ">
+                            <a class="nav-link" href="{{ route('configs.index') }}">
                                 <i class="material-icons">library_books</i>
                                 <p>Configurações</p>
                             </a>
