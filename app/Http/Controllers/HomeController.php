@@ -17,6 +17,8 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $page = ['name' => 'Dashboard', 'link' => 'dash'];
+        $this->page = $page;
     }
 
     /**
@@ -26,9 +28,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $page = ['name' => 'Dashboard', 'link' => 'dash'];
-        $client = Client::all()->count();
-        $domain = Domain::all()->count();
+        $page = $this->page;
+        $client = Client::orderBy('id', 'DESC')->limit(5)->get();
+        $domain = Domain::all();
         $sum = Invoice::where('pay', 1)
             ->whereMonth('date_pay', date('m'))
             ->sum('amount');

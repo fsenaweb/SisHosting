@@ -43,7 +43,7 @@
                             </thead>
                             <tbody>
                             @foreach($result as $res)
-                                <tr>
+                                <tr class="{{ $res->date_payment < date('Y-m-d') ? 'bg-warning' : '' }}">
                                     <td>
                                         {{ $res->domain_name }}
                                     </td>

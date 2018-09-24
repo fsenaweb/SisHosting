@@ -10,12 +10,12 @@
                         <i class="material-icons">person_pin</i>
                     </div>
                     <p class="card-category">Clientes</p>
-                    <h3 class="card-title">{{ $client }}</h3>
+                    <h3 class="card-title">{{ $client->count() }}</h3>
                 </div>
                 <div class="card-footer">
                     <div class="stats">
                         <i class="material-icons">apps</i>
-                        <a href="#">Listagem</a>
+                        <a href="{{ route('clients.index') }}">Listagem</a>
                     </div>
                 </div>
             </div>
@@ -27,12 +27,12 @@
                         <i class="material-icons">dvr</i>
                     </div>
                     <p class="card-category">Domínios</p>
-                    <h3 class="card-title">{{ $domain }}</h3>
+                    <h3 class="card-title">{{ $domain->count() }}</h3>
                 </div>
                 <div class="card-footer">
                     <div class="stats">
                         <i class="material-icons">apps</i>
-                        <a href="#">Listagem</a>
+                        <a href="{{ route('domains.index') }}">Listagem</a>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="stats">
-                        <i class="material-icons">date_range</i> Faturas de Julho/2018
+                        <i class="material-icons">date_range</i> Faturas de {{ App\Helpers\Helper::formatMouth(date('n')) }}/{{ date('Y') }}
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                         <i class="material-icons">local_offer</i>
                     </div>
                     <p class="card-category">Tickets</p>
-                    <h3 class="card-title">+245</h3>
+                    <h3 class="card-title">-</h3>
                 </div>
                 <div class="card-footer">
                     <div class="stats">
@@ -88,22 +88,18 @@
                             <th>
                                 Nome
                             </th>
-                            <th>
-                                E-mail
-                            </th>
                             </thead>
                             <tbody>
+                            @foreach($client as $cli)
                             <tr>
                                 <td>
-                                    <i class="material-icons">search</i>
+                                    <a href="{{ route('clients.show', $cli->id) }}"><i class="material-icons">search</i></a>
                                 </td>
                                 <td>
-                                    Francisco Matheus Ricelly Pinto de Sena
-                                </td>
-                                <td>
-                                    fsenaweb@gmail.com
+                                    {{ $cli->name }}
                                 </td>
                             </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -113,8 +109,8 @@
         <div class="col-md-7">
             <div class="card">
                 <div class="card-header card-header-warning">
-                    <h4 class="card-title ">Faturas</h4>
-                    <p class="card-category"> Faturas Vencidas </p>
+                    <h4 class="card-title ">Tickets</h4>
+                    <p class="card-category"> Tickets abertos</p>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -124,13 +120,10 @@
 
                             </th>
                             <th>
-                                Domínio
+                                Descrição
                             </th>
                             <th>
-                                Data Vencimento
-                            </th>
-                            <th>
-                                Valor
+                                Prioridade
                             </th>
                             </thead>
                             <tbody>
@@ -139,13 +132,10 @@
                                     <i class="material-icons">search</i>
                                 </td>
                                 <td>
-                                    severianomelo.rn.gov.br
+                                    -
                                 </td>
                                 <td>
-                                    10/07/2018
-                                </td>
-                                <td class="text-danger">
-                                    $36,73
+                                    -
                                 </td>
                             </tr>
                             </tbody>
