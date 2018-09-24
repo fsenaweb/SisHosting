@@ -56,8 +56,8 @@
                                 <p>Faturas</p>
                             </a>
                         </li>
-                        <li class="nav-item {{ $page['link'] == 'financeiro' ? 'active' : '' }} ">
-                            <a class="nav-link" href="#">
+                        <li class="nav-item {{ $page['link'] == 'finance' ? 'active' : '' }} ">
+                            <a class="nav-link" href="{{ route('finances.index') }}">
                                 <i class="material-icons">attach_money</i>
                                 <p>Financeiro</p>
                             </a>

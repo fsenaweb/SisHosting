@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class FinancesController extends Controller
 {
+
+    public function __construct()
+    {
+        $page = ['name' => 'Financeiro', 'link' => 'finance'];
+        $this->page = $page;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +21,24 @@ class FinancesController extends Controller
      */
     public function index()
     {
-        //
+        $page = $this->page;
+        //Valor gerais
+        $sumTotal = Invoice::where('pay', 1)->sum('amount');
+        $debTotal = Invoice::where('pay', 0)->sum('amount');
+        //Valor gerais
+
+        //Valor do mês atual
+        $sumMouth = Invoice::where('pay', 1)->whereMonth('date_payment', date('m'))->sum('amount');
+        $debMouth = Invoice::where('pay', 0)->whereMonth('date_payment', date('m'))->sum('amount');
+        //Valor do mês atual
+
+        //Valor do mês anterior
+        $sumLast = Invoice::where('pay', 1)->whereMonth('date_payment', date('m')-1)->sum('amount');
+        $debLast = Invoice::where('pay', 0)->whereMonth('date_payment', date('m')-1)->sum('amount');
+        //Valor do mês anterior
+
+
+        return view('admin.finances.index', compact('page', 'sumTotal', 'debTotal', 'sumMouth', 'debMouth', 'sumLast', 'debLast'));
     }
 
     /**
