@@ -50,7 +50,7 @@
                                        <strong>{{ $res->space }}</strong></a>
                                     </td>
                                     <td>
-                                        R$ {{ \App\Helpers\Helper::formatNumber($res->amount, 'BR') }}
+                                        R$ {!! Helper::formatNumber($res->amount, 'BR') !!}
                                     </td>
                                     <td class="td-actions text-center">
                                         <a href="{{ route('plans.edit', [ $res->id ]) }}" rel="tooltip" class="btn btn-facebook"><i class="material-icons">edit</i></a>

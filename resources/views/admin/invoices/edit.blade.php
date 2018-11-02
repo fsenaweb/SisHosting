@@ -47,7 +47,7 @@
                             </div>
                             <div class="form-group col-md-2">
                                 <label for="amount" class="bmd-label-floating">Valor Fatura R$</label>
-                                <input name="amount" type="text" class="form-control" id="amount" value="{{ \App\Helpers\Helper::formatNumber($result->amount, 'BR') }}">
+                                <input name="amount" type="text" class="form-control" id="amount" value="{!! Helper::formatNumber($result->amount, 'BR') !!}">
                             </div>
                         </div>
                         <hr>

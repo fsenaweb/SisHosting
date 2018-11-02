@@ -48,7 +48,7 @@
                                         {{ $res->domain_name }}
                                     </td>
                                     <td>
-                                        R$ {{ \App\Helpers\Helper::formatNumber($res->amount, 'BR') }}
+                                        R$ {!! Helper::formatNumber($res->amount, 'BR') !!}
                                     </td>
                                     <td>
                                         {{ date("d/m/Y", strtotime($res->date_payment)) }}

@@ -18,7 +18,7 @@
                                     Créditos
                                 </td>
                                 <td class="text-right">
-                                    R$ {{ \App\Helpers\Helper::formatNumber($sumTotal, 'BR') }}
+                                    R$ {!! Helper::formatNumber($sumTotal, 'BR') !!}
                                 </td>
                             </tr>
                             <tr>
@@ -26,7 +26,7 @@
                                     Débitos
                                 </td>
                                 <td class="text-right">
-                                    R$ {{ \App\Helpers\Helper::formatNumber($debTotal, 'BR') }}
+                                    R$ {!! Helper::formatNumber($debTotal, 'BR') !!}
                                 </td>
                             </tr>
                             </tbody>
@@ -50,7 +50,7 @@
                                     Créditos
                                 </td>
                                 <td class="text-right">
-                                    R$ {{ \App\Helpers\Helper::formatNumber($sumMouth, 'BR') }}
+                                    R$ {!! Helper::formatNumber($sumMouth, 'BR') !!}
                                 </td>
                             </tr>
                             <tr>
@@ -58,7 +58,7 @@
                                     Débitos
                                 </td>
                                 <td class="text-right">
-                                    R$ {{ \App\Helpers\Helper::formatNumber($debMouth, 'BR') }}
+                                    R$ {!! Helper::formatNumber($debMouth, 'BR') !!}
                                 </td>
                             </tr>
                             </tbody>
@@ -82,7 +82,7 @@
                                     Créditos
                                 </td>
                                 <td class="text-right">
-                                    R$ {{ \App\Helpers\Helper::formatNumber($sumLast, 'BR') }}
+                                    R$ {!! Helper::formatNumber($sumLast, 'BR') !!}
                                 </td>
                             </tr>
                             <tr>
@@ -90,7 +90,7 @@
                                     Débitos
                                 </td>
                                 <td class="text-right">
-                                    R$ {{ \App\Helpers\Helper::formatNumber($debLast, 'BR') }}
+                                    R$ {!! Helper::formatNumber($debLast, 'BR') !!}
                                 </td>
                             </tr>
                             </tbody>
